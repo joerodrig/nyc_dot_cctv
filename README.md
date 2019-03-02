@@ -41,6 +41,32 @@ The 'body' will contain the `.jpg` image returned from the CCTV camera
 if the request was successful. The 'requested_at' time is the time that the
 request was triggered. The 'status_code' is the HTTP response header returned from the request. The 'uri' is the url generated to make the request.
 
+
+### Capturing multiple images
+Most of the time you'll likely want to capture many images in succession. The easiest way to do this is to set a loop for calling `NycDotCctv.request_image`
+
+A helpful rake task to do this is
+```ruby
+# camera.rake
+namespace :camera do
+  task :capture, [:cctv_id, :amount, :sleep] => [:environment] do |task, args|
+    1.upto(args.amount.to_i) do
+      sleep args.sleep.to_i
+      response = NycDotCctv.request_image(args.cctv_id.to_s)
+      puts "GET #{response[:uri]} requested at #{response[:requested_at]}"
+    end
+  end
+end
+```
+
+Running `rake camera:capture` for the above code will produce the following output
+
+```ruby
+GET http://207.251.86.238/cctv254.jpg?rand=0.4588612023361326:80 requested at 2019-03-01_224844
+GET http://207.251.86.238/cctv254.jpg?rand=0.2349662055005045:80 requested at 2019-03-01_224845
+```
+
+
 ### Obtaining a CCTV ID
 I'm working on a way to make this a bit easier, but right now there's a small process to obtain a CCTV ID
 
