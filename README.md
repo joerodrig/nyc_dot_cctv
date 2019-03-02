@@ -43,7 +43,7 @@ request was triggered. The 'status_code' is the HTTP response header returned fr
 
 
 ### Capturing multiple images
-Most of the time you'll likely want to capture many images in succession. The easiest way to do this is to set a loop for calling `NycDotCctv.request_image`
+Most of the time you'll likely want to capture, or stream many images in succession. The easiest way to do this is to set a loop for calling `NycDotCctv.request_image`
 
 A helpful rake task to do this is
 ```ruby
@@ -59,7 +59,7 @@ namespace :camera do
 end
 ```
 
-Running `rake camera:capture` for the above code will produce the following output
+Running `rails camera:capture[254,2,1]` for the above code will produce the following output
 
 ```ruby
 GET http://207.251.86.238/cctv254.jpg?rand=0.4588612023361326:80 requested at 2019-03-01_224844
